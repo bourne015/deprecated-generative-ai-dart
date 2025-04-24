@@ -96,6 +96,23 @@ final class GenerateContentResponse {
   Iterable<FunctionCall> get functionCalls =>
       candidates.firstOrNull?.content.parts.whereType<FunctionCall>() ??
       const [];
+
+  ////
+  DataPart? get image {
+    // Get the parts list from the first candidate, or null if no candidates/parts.
+    final firstCandidateParts = candidates.firstOrNull?.content.parts;
+    if (firstCandidateParts == null) {
+      return null; // No candidates or no parts in the first candidate.
+    }
+    // Iterate through the parts to find the first image DataPart.
+    for (final part in firstCandidateParts) {
+      if (part is DataPart && part.mimeType.startsWith('image/')) {
+        return part; // Return the first matching DataPart.
+      }
+    }
+    return null; // No image DataPart found.
+  }
+  ////
 }
 
 final class EmbedContentResponse {
