@@ -59,6 +59,8 @@ Content parseContent(Object jsonObject) {
           _ => null,
         },
         parts.map(_parsePart).toList()),
+    // Handle streaming response that might only contain role
+    {'role': final String role} => Content(role, []),
     _ => throw unhandledFormat('Content', jsonObject),
   };
 }
